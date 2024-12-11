@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .box { width: 100px; height: 100px; margin: 10px; background-color: lightgray; display: inline-block; cursor: pointer; }
+        .on { background-color: green; }
+        .off { background-color: red; }
+    </style>
+</head>
+<body>
+    <div id="container"></div>
+    <div>Boxes ON: <span id="counter">0</span></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Create 6 boxes
+            for (let i = 0; i < 6; i++) {
+                $('#container').append('<div class="box off"></div>');
+            }
+
+            // Update counter
+            function updateCounter() {
+                const onCount = $('.box.on').length; // Count boxes with class 'on'
+                $('#counter').text(onCount); // Update the counter
+            }
+
+            // Toggle box state and update counter
+            $('.box').on('click', function() {
+                $(this).toggleClass('on off'); // Switch between 'on' and 'off' classes
+                updateCounter(); // Update the counter
+            });
+        });
+
+        /* Explanation:
+
+        1. CSS Setup: .box defines box styling, .on and .off control the appearance for ON/OFF states.
+        2. jQuery Initialization: $() ensures the script runs after the DOM loads.
+        3. Box Creation: A loop appends 6 <div> elements with the box off classes.
+        4. Counter Update Function: Counts the number of .on boxes and updates the counter display.
+        5. Toggle Event: Adds click functionality to toggle between on and off, updating the counter after each click.
+
+        */ 
+    </script>
+</body>
+</html>

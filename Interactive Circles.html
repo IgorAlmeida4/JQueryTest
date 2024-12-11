@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Interactive Circles Exercise</title>
+    <style>
+      .circle {
+        width: 50px; 
+        height: 50px;
+        border-radius: 50%; 
+        background-color: gray; 
+        margin: 10px; 
+        display: inline-block; 
+        cursor: pointer; 
+      }
+
+      .selected {
+        background-color: blue;
+      }
+
+      #tracker {
+        margin-top: 20px;
+        font-size: 18px;
+      }
+
+      #resetButton {
+        margin-top: 10px; 
+        padding: 10px 20px; 
+        font-size: 16px;
+        cursor: pointer; 
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <div id="tracker">Selected: 0%</div>
+    <button id="resetButton">Reset</button>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Wait for the DOM to fully load before running the script
+
+        // Dynamically create 8 circles and append them to the container
+        for (let i = 0; i < 8; i++) {
+          $("#container").append('<div class="circle"></div>');
+        }
+
+        // Function to update the percentage tracker
+        function updateCounter() {
+          const onCount = $(".circle.selected").length; // Count circles with the 'selected' class
+          let percentage = (onCount / 8) * 100; // Calculate percentage of selected circles
+          $("#tracker").text("Selected: " + percentage + "%"); // Update the tracker text
+        }
+
+        // Add a click event to toggle the 'selected' class for each circle
+        $("#container").on("click", ".circle", function () {
+          $(this).toggleClass("selected"); // Toggle the 'selected' class on the clicked circle
+          updateCounter(); // Update the percentage tracker
+        });
+
+        // Add a click event to the reset button
+        $("#resetButton").on("click", function () {
+          $(".circle").removeClass("selected"); // Remove the 'selected' class from all circles
+          $("#tracker").text("Selected: 0%"); // Reset the tracker text to 0%
+        });
+      });
+    </script>
+  </body>
+</html>

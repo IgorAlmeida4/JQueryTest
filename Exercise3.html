@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+    <button id="addImages">Add Images</button>
+    <input type="number" id="imgCount" />
+    <select id="animalSelect">
+      <option value="cat">Cat</option>
+      <option value="dog">Dog</option>
+    </select>
+    <div id="imageContainer"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Wait for the DOM to load before executing this script
+
+        let addClickCount = 0;
+        // Counter to track how many times the "Add Images" button is clicked
+
+        $("#addImages").on("click", function () {
+          // Event listener for the "Add Images" button
+
+          const count = parseInt($("#imgCount").val());
+          // Get the number of images to add from the input field and convert it to an integer
+
+          const type = $("#animalSelect").val();
+          // Get the selected animal type (cat or dog) from the dropdown menu
+
+          const src = type === "cat" ? "cat.png" : "dog.png";
+          // Determine the image source based on the selected type
+
+          for (let i = 0; i < count; i++) {
+            // Loop to add the specified number of images
+            $("#imageContainer").append(`<img src="${src}" class="animal">`);
+            // Add an <img> element with the determined source and class "animal" to the container
+          }
+
+          addClickCount++;
+          // Increment the counter for button clicks
+
+          if (addClickCount === 3) {
+            // If the button has been clicked 3 times, remove the button, input, and dropdown
+            $("#addImages, #imgCount, #animalSelect").remove();
+          }
+        });
+
+        $("#imageContainer").on("click", ".animal", function () {
+          // Event delegation: handle clicks on dynamically added images
+
+          const src = $(this).attr("src") === "cat.png" ? "dog.png" : "cat.png";
+          // Toggle the image source between "cat.png" and "dog.png"
+
+          $(this).attr("src", src);
+          // Update the image's source attribute to the new value
+
+          $(this)
+            .off("click")
+            .on("click", function () {
+              // Detach the first click handler and add a new one
+              $(this).remove();
+              // On the second click, remove the image from the page
+            });
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create List Exercise</title>
+  </head>
+  <body>
+    <!-- Button to start the process -->
+    <button id="createList">Create List</button>
+    <!-- Input field to enter a number -->
+    <input type="number" id="numberInput" />
+    <!-- Container for the dynamically generated elements -->
+    <div id="dynamicContainer"></div>
+
+    <!-- Include the jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Wait for the DOM to be fully loaded
+
+        $("#createList").on("click", function () {
+          // Event listener for the "Create List" button
+
+          const n = parseInt($("#numberInput").val());
+          // Read the number from the input field and convert it to an integer
+
+          if (n > 2) {
+            // Check if the number is greater than 2
+
+            const $select = $("<select></select>");
+            // Create a new <select> element
+
+            for (let i = 2; i <= n; i++) {
+              // Loop from 2 to the entered number
+              $select.append(`<option value="${i}">${i}</option>`);
+              // Add an <option> for each number in the range
+            }
+
+            $("#dynamicContainer").append($select);
+            // Append the select list to the dynamic container
+
+            $("#numberInput").remove();
+            // Remove the input field
+
+            $(this).text("GO");
+            // Change the button text to "GO"
+
+            $(this)
+              .off("click")
+              .on("click", function () {
+                // Change the button functionality to handle "GO" clicks
+
+                $("#createList, select").remove();
+                // Remove the select list and the button
+
+                for (let i = 0; i < n; i++) {
+                  // Loop to create n input boxes and buttons
+                  const $input = $('<input type="text" class="inputBox"/>');
+                  // Create a new text input box
+                  const $button = $('<button class="nextButton">NEXT</button>');
+                  // Create a button with the text "NEXT"
+                  $("#dynamicContainer").append($input, $button);
+                  // Append the input box and button to the container
+                }
+
+                $(".nextButton").on("click", function () {
+                  // Event listener for the NEXT buttons
+
+                  const currentInput = $(this).prev(".inputBox");
+                  // Get the input box before the clicked button
+
+                  const nextInput = $(this).nextAll(".inputBox").first();
+                  // Get the next input box (wraps to the first one if none exists)
+
+                  if (nextInput.length) {
+                    // If there is a next input box
+                    const temp = currentInput.val();
+                    // Temporarily store the current input's value
+                    currentInput.val(nextInput.val());
+                    // Set the current input's value to the next input's value
+                    nextInput.val(temp);
+                    // Set the next input's value to the current input's value
+                  } else {
+                    // If no next input exists, wrap around to the first input
+                    const firstInput = $(".inputBox").first();
+                    // Get the first input box
+                    const temp = currentInput.val();
+                    // Temporarily store the current input's value
+                    currentInput.val(firstInput.val());
+                    // Set the current input's value to the first input's value
+                    firstInput.val(temp);
+                    // Set the first input's value to the current input's value
+                  }
+                });
+              });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
